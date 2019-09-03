@@ -1,0 +1,14 @@
+{
+  "name": "web-app",
+  "version": "1.0.0",
+  "description": "Crawl the web",
+  "scripts": {},
+  "author": "Nico Börger",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "latest",
+    "express": "latest",
+    "puppeteer": "^1.19.0",
+    "request": "latest"
+  }
+}
