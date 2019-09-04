@@ -29,15 +29,15 @@ class Crawler {
         this.running = true;
 
         this.request = $.ajax({
-            url: 'localhost:4000/crawl',
-            data: this.serializeArray(this.data),
-            method: 'POST'
+            url: 'http://localhost:4000/crawl',
+            data: $.param(this.serializeArray(this.data)),
+            method: 'GET'
         })
-        .complete(result => {
-            console.log(result);
+        .done(result => { 
+            this.running = false;
+            this.updateFrontend();
+            this.setResult(result);
         });
-
-        console.log(this.request);
 
         this.updateFrontend();
     }
@@ -63,7 +63,32 @@ class Crawler {
         const button = $(`#${this.data.id}-toggle`),
             tab = $(`#${this.data.id}`);
 
-        button.find('small').text(this.running ? 'running' : 'not running');
+        button.find('small').toggleClass('text-success', this.running).toggleClass('text-danger', !this.running).text(this.running ? 'running' : 'not running');
         tab.find('.toggle-crawler').toggleClass('btn-primary', !this.running).toggleClass('btn-danger', this.running).text(this.running ? 'Stop crawler' : 'Start crawler');
+    }
+
+    setResult(data) {
+        const tab = $(`#${this.data.id}`),
+            table = tab.find('.detected tbody');
+
+        table.html('');
+
+        if(data.length) {
+            data.forEach(library => {
+                table.append(`
+                    <tr>
+                        <td>${library.name}</td>
+                        <td>${library.version || 'unknown'}</td>
+                    </tr>
+                `);
+            });
+        } else {
+            table.append(`
+                <tr>
+                    <td>No libraries detected...</td>
+                    <td></td>
+                </tr>
+            `);
+        }
     }
 }

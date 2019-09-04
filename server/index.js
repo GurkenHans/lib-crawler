@@ -1,16 +1,31 @@
-const puppeteer = require('puppeteer'),
+const express = require('express'),
+    bodyParser = require('body-parser'),
+    cors = require('cors'),
+    puppeteer = require('puppeteer'),
     $ = require('cheerio'),
-    detect = require('./detect');
+    detect = require('./detect'),
+    app = express(),
+    PORT = process.env.PORT || 4000,
+    corsOptions = {
+        origin: 'localhost:3000',
+        optionsSuccessStatus: 200
+    }
 
-async function getJSLibraries(url) {
-    const browser = await puppeteer.launch(),
-        page = await browser.newPage();
+app.use(bodyParser.json())
+app.use(cors())
+app.listen(PORT, () => console.log(`Listening on Port ${PORT}!`))
 
-    await page.goto(url);
+app.get('/crawl', cors(corsOptions), async(req, res) => {
+    const url = req.query.url,
+        level = req.query.level,
+        browser = await puppeteer.launch(),
+        page = await browser.newPage()
+
+    await page.goto(url)
     
-    const libraries = await page.evaluate(detect);
+    const libraries = await page.evaluate(detect)
 
-    await browser.close();
+    await browser.close()
 
-    return libraries;
-}
+    res.status(200).json(libraries)
+})

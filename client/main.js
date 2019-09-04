@@ -14,8 +14,23 @@ const crawlers = {},
                 buttonTemplate = `<a class="nav-link d-flex justify-content-between" id="${id}-toggle" data-toggle="pill" href="#${id}" role="tab"><span class="name">${data.name}</span><small></small></a>`,
                 template = `
                     <div class="tab-pane fade" id="${id}" role="tabpanel">
-                        <h2>${data.name}</h2>
-                        <button class="btn btn-danger toggle-crawler">Stop crawler</button>
+                        <h2 class="mb-2">${data.name}</h2>
+                        <button class="btn btn-sm btn-danger toggle-crawler mb-5">Stop crawler</button>
+                        <h3 class="mb-2">Detected JavaScript libraries</h3>
+                        <table class="table detected">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Version</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Still crawling...</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>`;
 
             data.id = id;

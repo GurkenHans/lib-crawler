@@ -6,7 +6,9 @@
   "author": "Nico Börger",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cheerio": "latest",
+    "cors": "^2.8.5",
     "express": "latest",
     "puppeteer": "^1.19.0",
     "request": "latest"
