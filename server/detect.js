@@ -38,6 +38,19 @@ module.exports = function() {
                 }
             },
 
+            'Zepto': {
+                name: 'Zepto',
+                test(win) {
+                    return suite.isFunction(win.Zepto) && suite.isObject(win.Zepto.zepto) && suite.isObject(win.Zepto.fn)
+                },
+                getInfo(win) {
+                    return {
+                        name: this.name,
+                        version: UNDEFINED_VERSION
+                    }
+                }
+            },
+
             'Bootstrap': {
                 name: 'Bootstrap',
                 data: {
@@ -169,6 +182,35 @@ module.exports = function() {
                     return {
                         name: this.name,
                         version: win.Modernizr._version || UNDEFINED_VERSION
+                    }
+                }
+            },
+
+            'FlexSlider': {
+                name: 'FlexSlider',
+                test(win) {
+                    return libraries['jQuery'].test(win) && suite.isFunction(jQuery.fn.flexslider)
+                },
+                getInfo(win) {
+                    return {
+                        name: this.name,
+                        version: UNDEFINED_VERSION
+                    }
+                }
+            },
+
+            'Owl Carousel': {
+                name: 'Owl Carousel',
+                test(win) {
+                    const $ = libraries['jQuery'].test(win) ? win.jQuery :
+                        libraries['Zepto'].test(win) ? win.Zepto : undefined
+
+                    return suite.defined($) && suite.isFunction($.fn.owlCarousel)
+                },
+                getInfo(win) {
+                    return {
+                        name: this.name,
+                        version: UNDEFINED_VERSION
                     }
                 }
             }
