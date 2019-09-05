@@ -10,7 +10,11 @@
     "cheerio": "latest",
     "cors": "^2.8.5",
     "express": "latest",
+    "nodemon": "^1.19.2",
     "puppeteer": "^1.19.0",
     "request": "latest"
+  },
+  "scripts": {
+    "start": "nodemon server"
   }
 }
