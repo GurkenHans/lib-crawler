@@ -190,6 +190,17 @@ module.exports = function() {
                 getVersion(win) {
                     return win.io.version || UNDEFINED_VERSION
                 }
+            },
+
+            'Angular': {
+                name: 'Angular',
+                test(win) {
+                    return (suite.isObject(win.ng) && (suite.isFunction(win.ng.probe)))
+                },
+                getVersion(win) {
+                    const versionNode = win.document.querySelector('[ng-version]')
+                    return versionNode ? versionNode.getAttribute('ng-version') : UNDEFINED_VERSION
+                }
             }
         }
 
