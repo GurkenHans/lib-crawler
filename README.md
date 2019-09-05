@@ -4,7 +4,7 @@
 Open `client/index.html`.
 
 ### Server
-Run `node server` in the console.
+Run `npm run start` in the console.
 
 ## Server configuration
 Add `config.json` file to `server/`. From there you can override the default configuration in `server/config.js`.
