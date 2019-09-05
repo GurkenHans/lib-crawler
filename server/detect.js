@@ -17,11 +17,8 @@ module.exports = function() {
                 test(win) {
                     return suite.isFunction(win.jQuery) && suite.isObject(win.jQuery.fn) && suite.defined(win.jQuery().jquery)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: win.jQuery().jquery
-                    }
+                getVersion(win) {
+                    return win.jQuery().jquery
                 }
             },
 
@@ -30,11 +27,8 @@ module.exports = function() {
                 test(win) {
                     return libraries['jQuery'].test(win) && suite.isObject(win.jQuery.ui) && suite.defined(win.jQuery.ui.version)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: win.jQuery.ui.version
-                    }
+                getVersion(win) {
+                    return win.jQuery.ui.version
                 }
             },
 
@@ -43,11 +37,8 @@ module.exports = function() {
                 test(win) {
                     return suite.isFunction(win.Zepto) && suite.isObject(win.Zepto.zepto) && suite.isObject(win.Zepto.fn)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: UNDEFINED_VERSION
-                    }
+                getVersion(win) {
+                    return UNDEFINED_VERSION
                 }
             },
 
@@ -69,11 +60,8 @@ module.exports = function() {
                     return libraries['jQuery'].test(win)
                         && this.data.components.some(component => suite.isFunction(win.jQuery.fn[component]) && suite.isFunction(win.jQuery.fn[component].Constructor))
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: this.data.getVersion(win)
-                    }
+                getVersion(win) {
+                    return this.data.getVersion(win)
                 }
             },
 
@@ -82,11 +70,8 @@ module.exports = function() {
                 test(win) {
                     return suite.isObject(win.AOS) && suite.isFunction(win.AOS.init)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: UNDEFINED_VERSION
-                    }
+                getVersion(win) {
+                    return UNDEFINED_VERSION
                 }
             },
 
@@ -95,11 +80,8 @@ module.exports = function() {
                 test(win) {
                     return suite.isObject(win.d3) && suite.isFunction(win.d3.min) && suite.defined(win.d3.version)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: win.d3.version
-                    }
+                getVersion(win) {
+                    return win.d3.version
                 }
             },
 
@@ -113,11 +95,8 @@ module.exports = function() {
                 test(win) {
                     return libraries['jQuery'].test(win) && suite.isFunction(win.jQuery.fn.parsley)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: this.data.getVersion(win)
-                    }
+                getVersion(win) {
+                    return this.data.getVersion(win)
                 }
             },
 
@@ -126,11 +105,8 @@ module.exports = function() {
                 test(win) {
                     return suite.isFunction(win.Popper)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: UNDEFINED_VERSION
-                    }
+                getVersion(win) {
+                    return UNDEFINED_VERSION
                 }
             },
 
@@ -139,11 +115,8 @@ module.exports = function() {
                 test(win) {
                     return suite.isObject(win.THREE)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: win.THREE.REVISION || UNDEFINED_VERSION
-                    }
+                getVersion(win) {
+                    return win.THREE.REVISION || UNDEFINED_VERSION
                 }
             },
 
@@ -152,11 +125,8 @@ module.exports = function() {
                 test(win) {
                     return suite.isObject(win.React) && suite.isFunction(win.React.Component)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: win.React.version || UNDEFINED_VERSION
-                    }
+                getVersion(win) {
+                    return win.React.version || UNDEFINED_VERSION
                 }
             },
 
@@ -165,11 +135,8 @@ module.exports = function() {
                 test(win) {
                     return suite.isObject(win.PIXI) && suite.defined(win.PIXI.VERSION)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: win.PIXI.VERSION
-                    }
+                getVersion(win) {
+                    return win.PIXI.VERSION
                 }
             },
 
@@ -178,11 +145,8 @@ module.exports = function() {
                 test(win) {
                     return suite.isObject(win.Modernizr) && suite.isFunction(win.Modernizr.addTest)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: win.Modernizr._version || UNDEFINED_VERSION
-                    }
+                getVersion(win) {
+                    return win.Modernizr._version || UNDEFINED_VERSION
                 }
             },
 
@@ -191,11 +155,8 @@ module.exports = function() {
                 test(win) {
                     return libraries['jQuery'].test(win) && suite.isFunction(jQuery.fn.flexslider)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: UNDEFINED_VERSION
-                    }
+                getVersion(win) {
+                    return UNDEFINED_VERSION
                 }
             },
 
@@ -207,14 +168,11 @@ module.exports = function() {
 
                     return suite.defined($) && suite.isFunction($.fn.owlCarousel)
                 },
-                getInfo(win) {
-                    return {
-                        name: this.name,
-                        version: UNDEFINED_VERSION
-                    }
+                getVersion(win) {
+                    return UNDEFINED_VERSION
                 }
             }
         }
 
-    return Object.values(libraries).filter(lib => lib.test(window)).map(lib => lib.getInfo(window))
+    return Object.values(libraries).filter(lib => lib.test(window)).map(lib => ({name: lib.name, version: lib.getVersion(window)}))
 }
