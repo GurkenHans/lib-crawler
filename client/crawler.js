@@ -47,6 +47,7 @@ class Crawler {
         this.request && this.request.abort();
 
         this.updateFrontend();
+        this.setResult([]);
     }
 
     serializeArray(data) {
@@ -65,6 +66,10 @@ class Crawler {
 
         button.find('small').toggleClass('text-success', this.running).toggleClass('text-danger', !this.running).text(this.running ? 'running' : 'not running');
         tab.find('.toggle-crawler').toggleClass('btn-primary', !this.running).toggleClass('btn-danger', this.running).text(this.running ? 'Stop crawler' : 'Start crawler');
+        
+        if(this.running) {
+            tab.find('.detected tbody').html('<tr><td>Crawling page...</td><td></td></tr>');
+        }
     }
 
     setResult(data) {

@@ -2,7 +2,9 @@
   "name": "web-app",
   "version": "1.0.0",
   "description": "Crawl the web",
-  "scripts": {},
+  "scripts": {
+    "start": "nodemon server"
+  },
   "author": "Nico Börger",
   "license": "MIT",
   "dependencies": {
@@ -13,8 +15,5 @@
     "nodemon": "^1.19.2",
     "puppeteer": "^1.19.0",
     "request": "latest"
-  },
-  "scripts": {
-    "start": "nodemon server"
   }
 }
