@@ -6,10 +6,7 @@ const express = require('express'),
     detect = require('./detect'),
     app = express(),
     PORT = process.env.PORT || 4000,
-    corsOptions = {
-        origin: 'localhost:3000',
-        optionsSuccessStatus: 200
-    }
+    { corsOptions } = require('./config');
 
 app.use(bodyParser.json())
 app.use(cors())
