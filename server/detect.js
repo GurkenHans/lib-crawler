@@ -201,6 +201,26 @@ module.exports = function() {
                     const versionNode = win.document.querySelector('[ng-version]')
                     return versionNode ? versionNode.getAttribute('ng-version') : UNDEFINED_VERSION
                 }
+            },
+
+            'LoDash': {
+                name: 'LoDash',
+                test(win) {
+                    return (suite.isFunction(win._) && suite.isFunction(win.isFinite) && !(win._.isFinite('1')))
+                },
+                getVersion(win) {
+                    return win._.VERSION || UNDEFINED_VERSION
+                }
+            },
+
+            'Underscore': {
+                name: 'Underscore',
+                test(win) {
+                    return (suite.isFunction(win._) && suite.isFunction(win.isFinite) && (win._.isFinite('1')))
+                },
+                getVersion(win) {
+                    return win._.VERSION || UNDEFINED_VERSION
+                }
             }
         }
 
