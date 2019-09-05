@@ -180,6 +180,16 @@ module.exports = function() {
                 getVersion(win) {
                     return UNDEFINED_VERSION
                 }
+            },
+
+            'Socket.IO': {
+                name: 'Socket.IO',
+                test(win) {
+                    return (suite.isFunction(win.io) && (suite.isFunction(win.io.sockets) || suite.isFunction(win.io.Socket)))
+                },
+                getVersion(win) {
+                    return win.io.version || UNDEFINED_VERSION
+                }
             }
         }
 
