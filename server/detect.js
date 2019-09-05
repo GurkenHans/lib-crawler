@@ -9,6 +9,13 @@ module.exports = function() {
             },
             defined(prop) {
                 return typeof prop !== 'undefined'
+            },
+            treeWalker(win, test) {
+                return win.document.createTreeWalker(
+                    win.document.body,
+                    NodeFilter.SHOW_ELEMENT,
+                    node => test(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP
+                ).nextNode() != null
             }
         },
         libraries = {
@@ -123,10 +130,12 @@ module.exports = function() {
             'React': {
                 name: 'React',
                 test(win) {
-                    return suite.isObject(win.React) && suite.isFunction(win.React.Component)
+                    return (suite.isObject(win.React) && suite.isFunction(win.React.Component))
+                        || suite.treeWalker(win, node => suite.defined(node) && suite.defined(node._reactRootContainer))
                 },
                 getVersion(win) {
-                    return win.React.version || UNDEFINED_VERSION
+
+                    return (suite.isObject(win.React) && suite.isFunction(win.React.Component)) ? win.React.version : UNDEFINED_VERSION
                 }
             },
 
