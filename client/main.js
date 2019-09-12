@@ -16,8 +16,24 @@ const crawlers = {},
                     <div class="tab-pane fade" id="${id}" role="tabpanel">
                         <h2 class="mb-2">${data.name}</h2>
                         <button class="btn btn-sm btn-primary toggle-crawler mb-5">Start crawler</button>
+                        <div class="seo"></div>
+                        <h3 class="mb-2">General Info</h3>
+                        <table class="table general">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Start the crawler to see results...</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <h3 class="mb-2">Detected JavaScript libraries</h3>
-                        <table class="table detected">
+                        <table class="table libraries">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">Name</th>

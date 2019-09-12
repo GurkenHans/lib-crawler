@@ -2,12 +2,14 @@ class Crawler {
     constructor(data) {
         this.data = data;
         this.running = false;
-        this.request = {};
+        this.libRequest = {};
+        this.seoRequest = {};
+        this.generalRequest = {};
 
         this.initEvents();
 
         if(this.data.start) {
-            this.startCrawler();
+            this.startCrawlers();
         } else {
             this.updateFrontend();
         }
@@ -18,36 +20,80 @@ class Crawler {
 
         $(`#${this.data.id} .toggle-crawler`).click(function() {
             if($(this).is('.btn-danger')) {
-                self.stopCrawler();
+                self.stopCrawlers();
             } else {
-                self.startCrawler();
+                self.startCrawlers();
             }
         })
     }
 
-    startCrawler() {
+    startCrawlers() {
+        this.startLibCrawler();
+        this.startGeneralCrawler();
+        this.startSeoCrawler();
+    }
+
+    startLibCrawler() {
         this.running = true;
 
-        this.request = $.ajax({
-            url: 'http://localhost:4000/crawl',
+        this.libRequest = $.ajax({
+            url: 'http://localhost:4000/crawl/libraries',
             data: $.param(this.serializeArray(this.data)),
             method: 'GET'
         })
         .done(result => { 
             this.running = false;
             this.updateFrontend();
-            this.setResult(result);
+            this.setLibraries(result);
         });
 
         this.updateFrontend();
     }
 
-    stopCrawler() {
-        this.running = false;
-        this.request && this.request.abort();
+    startGeneralCrawler() {
+        this.running = true;
+
+        this.generalRequest = $.ajax({
+            url: 'http://localhost:4000/crawl/general',
+            data: $.param(this.serializeArray(this.data)),
+            method: 'GET'
+        })
+        .done(result => { 
+            this.running = false;
+            this.updateFrontend();
+            this.setGeneral(result);
+        });
 
         this.updateFrontend();
-        this.setResult([]);
+    }
+
+    startSeoCrawler() {
+        this.running = true;
+
+        this.seoRequest = $.ajax({
+            url: 'http://localhost:4000/crawl/seo',
+            data: $.param(this.serializeArray(this.data)),
+            method: 'GET'
+        })
+        .done(result => { 
+            this.running = false;
+            this.updateFrontend();
+            this.setSeo(result);
+        });
+
+        this.updateFrontend();
+    }
+
+    stopCrawlers() {
+        this.running = false;
+        this.libRequest && this.libRequest.abort();
+        this.generalRequest && this.generalRequest.abort();
+        this.seoRequest && this.seoRequest.abort();
+
+        this.updateFrontend();
+        this.setLibraries([]);
+        this.setGeneral([]);
+        this.setSeo([]);
     }
 
     serializeArray(data) {
@@ -68,13 +114,14 @@ class Crawler {
         tab.find('.toggle-crawler').toggleClass('btn-primary', !this.running).toggleClass('btn-danger', this.running).text(this.running ? 'Stop crawler' : 'Start crawler');
         
         if(this.running) {
-            tab.find('.detected tbody').html('<tr><td>Crawling page...</td><td></td></tr>');
+            tab.find('.libraries tbody').html('<tr><td>Crawling page...</td><td></td></tr>');
+            tab.find('.general tbody').html('<tr><td>Crawling page...</td><td></td></tr>');
         }
     }
 
-    setResult(data) {
+    setLibraries(data) {
         const tab = $(`#${this.data.id}`),
-            table = tab.find('.detected tbody');
+            table = tab.find('.libraries tbody');
 
         table.html('');
 
@@ -94,6 +141,44 @@ class Crawler {
                     <td></td>
                 </tr>
             `);
+        }
+    }
+
+    setGeneral(data) {
+        const tab = $(`#${this.data.id}`),
+            table = tab.find('.general tbody');
+
+        table.html('');
+
+        if(data.length) {
+            data.forEach(info => {
+                table.append(`
+                    <tr>
+                        <td>${info.item}</td>
+                        <td>${info.value || 'unknown'}</td>
+                    </tr>
+                `);
+            });
+        } else {
+            table.append(`
+                <tr>
+                    <td>No general info found...</td>
+                    <td></td>
+                </tr>
+            `);
+        }
+    }
+
+    setSeo(data) {
+        const tab = $(`#${this.data.id}`),
+            seoData = tab.find('.seo');
+
+        seoData.html('');
+
+        if(data.length) {
+            data.forEach(info => {
+                seoData.append(`<p class="${info.item}">${info.value}</p>`);
+            });
         }
     }
 }
