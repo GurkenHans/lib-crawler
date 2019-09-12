@@ -2,7 +2,6 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     cors = require('cors'),
     puppeteer = require('puppeteer'),
-    $ = require('cheerio'),
     detect = require('./detect'),
     cmsDetect = require('./cmsDetect'),
     seoDetect = require('./seoDetect'),
@@ -16,7 +15,6 @@ app.listen(PORT, () => console.log(`Listening on Port ${PORT}!`))
 
 app.get('/crawl/libraries', cors(corsOptions), async(req, res) => {
     const url = req.query.url,
-        level = req.query.level,
         browser = await puppeteer.launch(),
         page = await browser.newPage()
 
