@@ -134,7 +134,6 @@ module.exports = function() {
                         || suite.treeWalker(win, node => suite.defined(node) && suite.defined(node._reactRootContainer))
                 },
                 getVersion(win) {
-
                     return (suite.isObject(win.React) && suite.isFunction(win.React.Component)) ? win.React.version : UNDEFINED_VERSION
                 }
             },
@@ -221,7 +220,17 @@ module.exports = function() {
                 getVersion(win) {
                     return win._.VERSION || UNDEFINED_VERSION
                 }
-            }
+            },
+
+            'Vue.js': {
+                name: 'Vue.js',
+                test(win) {
+                    return suite.treeWalker(win, node => suite.defined(node) && suite.defined(node.__vue__))
+                },
+                getVersion(win) {
+                    return UNDEFINED_VERSION
+                }
+            },
         }
 
     return Object.values(libraries).filter(lib => lib.test(window)).map(lib => ({name: lib.name, version: lib.getVersion(window)}))

@@ -114,8 +114,8 @@ class Crawler {
         tab.find('.toggle-crawler').toggleClass('btn-primary', !this.running).toggleClass('btn-danger', this.running).text(this.running ? 'Stop crawler' : 'Start crawler');
         
         if(this.running) {
-            tab.find('.libraries tbody').html('<tr><td>Crawling page...</td><td></td></tr>');
-            tab.find('.general tbody').html('<tr><td>Crawling page...</td><td></td></tr>');
+            tab.find('.libraries tbody').html('<tr><td class="d-flex align-items-center"><div class="spinner-border mr-2"></div><span>Crawling page...</span></td><td></td></tr>');
+            tab.find('.general tbody').html('<tr><td class="d-flex align-items-center"><div class="spinner-border mr-2"></div><span>Crawling page...</span></td><td></td></tr>');
         }
     }
 
